@@ -6,7 +6,7 @@
 //  Copyright © 2018 Alexey Smirnov. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public extension String {
     func colored(with color: UIColor) -> NSAttributedString {

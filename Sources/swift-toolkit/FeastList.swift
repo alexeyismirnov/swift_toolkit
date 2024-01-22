@@ -6,7 +6,7 @@
 //  Copyright © 2018 Alexey Smirnov. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class FeastList {
     var formatter1: DateFormatter { get {
