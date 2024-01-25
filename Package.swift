@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "swift_toolkit",
-    platforms: [ .iOS("14.0") ],
+    platforms: [ .iOS("16.0") ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
@@ -14,7 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "SQLite", url: "https://github.com/stephencelis/SQLite.swift", .upToNextMajor(from: "0.14.1")),
-        .package(url: "https://github.com/alexeyismirnov/FolioReaderKit", .branch("main")),
+        .package(name: "FolioReaderKit", url: "https://github.com/alexeyismirnov/FolioReaderKit", .branch("main")),
         ],
     
     targets: [
@@ -22,7 +22,7 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
             name: "swift_toolkit",
-            dependencies: ["SQLite"],
+            dependencies: ["SQLite", "FolioReaderKit"],
             resources: [ .process("Resources") ]
         ),
     ]

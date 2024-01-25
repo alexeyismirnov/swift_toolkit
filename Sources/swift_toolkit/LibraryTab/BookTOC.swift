@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FolioReaderKit
 
 public class BookTOC: UIViewController, ResizableTableViewCells {
     let toolkit = Bundle.module
@@ -80,7 +81,17 @@ public class BookTOC: UIViewController, ResizableTableViewCells {
             
             decoder.userInfo = [.year: year]
             let d = try! decoder.decode(ChurchDay.self, from: json.data(using: .utf8)!)
-            print(d)
+
+            print(d.reading!)
+            
+            let readerVc = UIApplication.shared.keyWindow!.rootViewController
+            let config = FolioReaderConfig(withIdentifier: "prayerbook")
+            let bookPath =  Bundle.main.path(forResource: d.reading, ofType: "epub")!
+            
+            let folioReader = FolioReader()
+            folioReader.presentReader(parentViewController: self, withEpubPath: bookPath, andConfig: config, shouldRemoveEpub: false)
+
+            return
             
         } else {
             pos = BookPosition(model: model, index: index, chapter: chapter)
