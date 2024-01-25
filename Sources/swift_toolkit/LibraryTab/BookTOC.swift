@@ -82,14 +82,18 @@ public class BookTOC: UIViewController, ResizableTableViewCells {
             decoder.userInfo = [.year: year]
             let d = try! decoder.decode(ChurchDay.self, from: json.data(using: .utf8)!)
 
-            print(d.reading!)
-            
-            let readerVc = UIApplication.shared.keyWindow!.rootViewController
+            let path = d.reading!.replacingOccurrences(of: ".epub", with: "")
+            let bookPath =  Bundle.main.path(forResource: "epubs/\(path)", ofType: "epub")!
+
+            let readerVc = UIApplication.shared.keyWindow!.rootViewController!
             let config = FolioReaderConfig(withIdentifier: "prayerbook")
-            let bookPath =  Bundle.main.path(forResource: d.reading!.replacingOccurrences(of: ".epub", with: ""), ofType: "epub")!
             
             let folioReader = FolioReader()
-            folioReader.presentReader(parentViewController: self, withEpubPath: bookPath, andConfig: config, shouldRemoveEpub: false)
+            let prefs = AppGroup.prefs!
+            let style = AppStyle(rawValue: prefs.integer(forKey: "style"))
+            
+            folioReader.nightMode = style == .Dark
+            folioReader.presentReader(parentViewController: readerVc, withEpubPath: bookPath, andConfig: config, shouldRemoveEpub: false)
 
             return
             
