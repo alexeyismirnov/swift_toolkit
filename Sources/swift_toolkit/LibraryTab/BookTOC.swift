@@ -73,6 +73,15 @@ public class BookTOC: UIViewController, ResizableTableViewCells {
         if model.code == "Bookmarks" {
             pos = (model as! BookmarksModel).resolveBookmarkAt(row: index.row)
             
+        } else if  model.contentType == .epub {
+            let decoder = JSONDecoder()
+            let year = DateComponents(date: Date()).year!
+            let json = model.getContent(at: BookPosition(model: model, index: index)) as! String
+            
+            decoder.userInfo = [.year: year]
+            let d = try! decoder.decode(ChurchDay.self, from: json.data(using: .utf8)!)
+            print(d)
+            
         } else {
             pos = BookPosition(model: model, index: index, chapter: chapter)
         }

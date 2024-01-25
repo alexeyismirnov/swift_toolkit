@@ -9,7 +9,7 @@
 import Foundation
 
 public enum BookContentType: Int {
-    case text = 0, html
+    case text = 0, html, epub
 }
 
 public struct BookPosition: Equatable {

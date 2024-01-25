@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "SQLite", url: "https://github.com/stephencelis/SQLite.swift", .upToNextMajor(from: "0.14.1")),
+        .package(url: "https://github.com/alexeyismirnov/FolioReaderKit", .branch("main")),
         ],
     
     targets: [
