@@ -19,8 +19,3 @@ public struct Preachment {
     public var title: String
     public var subtitle: String
 }
-
-public protocol PreachmentModel {
-    func getPreachment(_ date: Date) -> [Preachment]
-}
-

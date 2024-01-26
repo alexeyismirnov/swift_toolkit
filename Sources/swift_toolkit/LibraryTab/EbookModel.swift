@@ -90,7 +90,10 @@ open class EbookModel : BookModel {
         var text = try! db.pluck(t_content
             .filter(f_section == index.section && f_item == index.row))![f_text]
         
-        if (contentType == .text) {
+        if (contentType == .epub) {
+            return text
+            
+        } else if (contentType == .text) {
             let fontSize = CGFloat(AppGroup.prefs.integer(forKey: "fontSize"))
             return  NSAttributedString(string: text)
                 .font(font: UIFont(name: "TimesNewRomanPSMT", size: CGFloat(fontSize))!)
