@@ -113,11 +113,10 @@ public class ChurchDay : Hashable, Equatable, Codable, CustomStringConvertible  
 
         type = FeastType(try! container.decode(String.self, forKey: .type))!
         
-        if let dateStr = try? container.decode(String.self, forKey: .date) {
-            let d = formatter.date(from: dateStr)!
+        if let dateStr = try? container.decode(String.self, forKey: .date),
+            let d = formatter.date(from: dateStr) {
             date = Date(d.day, d.month, year)
         }
-        
     }
     
     // ENCODE
