@@ -85,15 +85,8 @@ public class BookTOC: UIViewController, ResizableTableViewCells {
             let path = d.reading!.replacingOccurrences(of: ".epub", with: "")
             let bookPath =  Bundle.main.path(forResource: "epubs/\(path)", ofType: "epub")!
 
-            let readerVc = UIApplication.shared.keyWindow!.rootViewController!
-            let config = FolioReaderConfig(withIdentifier: "prayerbook")
-            
             let folioReader = FolioReader()
-            let prefs = AppGroup.prefs!
-            let style = AppStyle(rawValue: prefs.integer(forKey: "style"))
-            
-            folioReader.nightMode = style == .Dark
-            folioReader.presentReader(parentViewController: readerVc, withEpubPath: bookPath, andConfig: config, shouldRemoveEpub: false)
+            folioReader.showEpub(path: bookPath)
 
             return
             

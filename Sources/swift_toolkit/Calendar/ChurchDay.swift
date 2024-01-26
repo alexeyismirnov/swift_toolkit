@@ -69,7 +69,7 @@ public enum DayOfWeek: Int  {
     }
 }
 
-extension CodingUserInfoKey {
+public extension CodingUserInfoKey {
     static let year = CodingUserInfoKey(rawValue: "year")!
 }
 

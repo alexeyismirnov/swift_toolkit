@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FolioReaderKit
 
 public enum TimeIntervalUnit {
     case seconds, minutes, hours, days, months, years
@@ -678,5 +679,17 @@ public extension UIBarButtonItem {
             tintColor = newValue ? .clear : nil
             isEnabled = !newValue
         }
+    }
+}
+
+public extension FolioReader {
+    func showEpub(path: String) {
+        let readerVc = UIApplication.shared.keyWindow!.rootViewController!
+        let config = FolioReaderConfig(withIdentifier: "prayerbook")
+        let prefs = AppGroup.prefs!
+        let style = AppStyle(rawValue: prefs.integer(forKey: "style"))
+        
+        nightMode = style == .Dark
+        presentReader(parentViewController: readerVc, withEpubPath: path, andConfig: config, shouldRemoveEpub: false)
     }
 }
