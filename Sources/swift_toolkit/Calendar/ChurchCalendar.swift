@@ -193,15 +193,19 @@ public class ChurchCalendar {
         
         // DEMETRIUS SAT
         let demetrius = Date(8, 11, year)
-        let demetriusWeekday = DateComponents(date: demetrius).weekday!
-        day("demetriusSaturday").date = demetrius - demetriusWeekday.days
+        var demetriusSat = ChurchCalendar.nearestSaturdayBefore(demetrius)
         
+        if demetriusSat == Date(4, 11, year) {
+            demetriusSat = demetriusSat + 7.days
+        }
+        
+        day("demetriusSaturday").date =  demetriusSat
     }
     
     func initMisc() {
-        day("newMartyrsConfessorsOfRussia").date = nearestSunday(Date(7,2,year))
-        day("holyFathersSixCouncils").date = nearestSunday(Date(29, 7, year))
-        day("holyFathersSeventhCouncil").date = nearestSunday(Date(24, 10, year))
+        day("newMartyrsConfessorsOfRussia").date = ChurchCalendar.nearestSunday(Date(7,2,year))
+        day("holyFathersSixCouncils").date = ChurchCalendar.nearestSunday(Date(29, 7, year))
+        day("holyFathersSeventhCouncil").date = ChurchCalendar.nearestSunday(Date(24, 10, year))
         
         // SYNAXIS
         days.append(ChurchDay("synaxisKievCavesSaints", .none, date: greatLentStart+13.days))
@@ -210,7 +214,7 @@ public class ChurchCalendar {
         
         if Translate.language == "ru" {
             days.append(ChurchDay("synaxisMoscowSaints", .none, date: ChurchCalendar.nearestSundayBefore(Date(8, 9, year))))
-            days.append(ChurchDay("synaxisNizhnyNovgorodSaints", .none, date: ChurchCalendar.nearestSundayAfter(Date(8, 9, year))))
+            days.append(ChurchDay("synaxisNizhnyNovgorodSaints", .none, date: ChurchCalendar.nearestSundayAfter(Date(7, 9, year))))
         }
         
         let synaxisTheotokos = Date(8, 1, year)
@@ -369,23 +373,36 @@ public extension ChurchCalendar {
         return  ((a+b > 10) ? Date(a+b-9, 4, year) : Date(22+a+b, 3, year)) + 13.days
     }
     
+    // 1 is Sunday
     static func nearestSundayAfter(_ date: Date) -> Date {
         let weekday = DateComponents(date:date).weekday!
-        let sunOffset = (weekday == 1) ? 0 : 8-weekday
-        return date + sunOffset.days
+        let offset = (weekday == 1) ? 7 : 8-weekday
+        return date + offset.days
+    }
+    
+    static func nearestSaturdayAfter(_ date: Date) -> Date {
+        let weekday = DateComponents(date:date).weekday!
+        let offset = (weekday == 7) ? 7 : 7-weekday
+        return date + offset.days
     }
 
     static func nearestSundayBefore(_ date: Date) -> Date {
         let weekday = DateComponents(date:date).weekday!
-        let sunOffset = (weekday == 1) ? 0 : weekday-1
-        return date - sunOffset.days
+        let offset = (weekday == 1) ? 7 : weekday-1
+        return date - offset.days
+    }
+    
+    static func nearestSaturdayBefore(_ date: Date) -> Date {
+        let weekday = DateComponents(date:date).weekday!
+        let offset = (weekday == 7) ? 7 : weekday
+        return date - offset.days
     }
     
     static func getGreatFeast(_ date: Date) -> [ChurchDay]  {
         Cal.fromDate(date).days.filter({ $0.date == date && $0.type == .great})
     }
     
-    func nearestSunday(_ date: Date) -> Date {
+    static func nearestSunday(_ date: Date) -> Date {
         let weekday = DayOfWeek(rawValue: DateComponents(date:date).weekday!)!
         
         switch (weekday) {
