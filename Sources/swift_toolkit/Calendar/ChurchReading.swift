@@ -92,7 +92,22 @@ public class ChurchReading {
                 continue
             }
             
-            if feast.type == .great {
+            // certain great feasts can be combined with Sunday service, just like vigil feasts
+            if feast.type == .vigil || feast.type == .great &&
+                (feast.id == "veilOfTheotokos" || feast.id == "nativityOfJohn" || feast.id == "beheadingOfJohn" || feast.id == "peterAndPaul" ||
+                 feast.id == "dormition" || feast.id == "nativityOfTheotokos" || feast.id == "annunciation" || feast.id == "entryIntoTemple") {
+                if let oldReading = rr[date],
+                    let newDate = transferVigil(date) {
+                    if newDate != date {
+                        let comment =  String(format: "# %@ Reading", formatter.string(from: date))
+                        for r in oldReading {
+                            rr[newDate]?.append(String(format: "%@ %@", r, comment))
+                        }
+                        
+                        rr[date] = nil
+                    }
+                }
+            } else if feast.type == .great {
                 if let oldReading = rr[date],
                     let newDate = transferGreatFeast(date) {
                     let comment =  String(format: "# %@ Reading", formatter.string(from: date))
@@ -105,18 +120,6 @@ public class ChurchReading {
 
                 rr[date] = nil
 
-            } else if feast.type == .vigil {
-                if let oldReading = rr[date],
-                    let newDate = transferVigil(date) {
-                    if newDate != date {
-                        let comment =  String(format: "# %@ Reading", formatter.string(from: date))
-                        for r in oldReading {
-                            rr[newDate]?.append(String(format: "%@ %@", r, comment))
-                        }
-                        
-                        rr[date] = nil
-                    }
-                }
             }
             
         }
@@ -283,9 +286,14 @@ public class ChurchReading {
     func getDailyReading(_ date: Date) -> [String] {
         let feasts = cal.getDayReadings(date)
         var result = [String]()
+        let weekday = DayOfWeek(date:date)
 
         if feasts.count > 0 {
-            if feasts[0].type == .great {
+            // for these two feasts, there can be additional "special days", e.g. Sunday before Theophany or Sunday before Elevation of Cross
+            if weekday == .sunday && (feasts[0].id == "circumcision" || feasts[0].id == "nativityOfTheotokos") {
+                return feasts.map { $0.reading! }
+                
+            } else if feasts[0].type == .great {
                 return (rr[date] ?? []) + feasts.filter({ $0.type == .great }).map { $0.reading! }
                 
             } else {
