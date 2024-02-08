@@ -206,6 +206,7 @@ public class ChurchCalendar {
         day("newMartyrsConfessorsOfRussia").date = ChurchCalendar.nearestSunday(Date(7,2,year))
         day("holyFathersSixCouncils").date = ChurchCalendar.nearestSunday(Date(29, 7, year))
         day("holyFathersSeventhCouncil").date = ChurchCalendar.nearestSunday(Date(24, 10, year))
+        day("findingOfHead").date = isLeapYear ? Date(8, 3, year) : Date(9, 3, year)
         
         // SYNAXIS
         days.append(ChurchDay("synaxisKievCavesSaints", .none, date: greatLentStart+13.days))
@@ -371,6 +372,10 @@ public extension ChurchCalendar {
         let b = (2*(year%4) + 4*(year%7) + 6*a + 6) % 7
 
         return  ((a+b > 10) ? Date(a+b-9, 4, year) : Date(22+a+b, 3, year)) + 13.days
+    }
+    
+    static func isLeap(year: Int) -> Bool {
+        (year % 400) == 0 || ((year % 4 == 0) && (year % 100 != 0))
     }
     
     // 1 is Sunday
