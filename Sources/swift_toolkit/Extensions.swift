@@ -298,6 +298,10 @@ public extension UIImage {
 }
 
 public extension String {
+    func trim() -> String {
+        return self.trimmingCharacters(in: NSCharacterSet.whitespaces)
+    }
+    
     func capitalizingFirstLetter() -> String {
         let first = String(prefix(1)).capitalized
         let other = String(dropFirst())
