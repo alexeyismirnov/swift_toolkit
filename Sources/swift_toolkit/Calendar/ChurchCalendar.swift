@@ -342,7 +342,19 @@ public class ChurchCalendar {
     }
     
     public func d(_ name: String) -> Date {
-        day(name).date!
+        // there can be zero Sundays before Nativity in a given year
+        if name == "sundayBeforeNativity1" {
+            let results = days.filter({ $0._name == "sundayBeforeNativity" })
+            return results.first?.date! ?? Date(1, 1, 1980)
+            
+        } else if name == "sundayBeforeNativity2" {
+            let results = days.filter({ $0._name == "sundayBeforeNativity" })
+            return results.last?.date! ?? Date(1, 1, 1980)
+
+        } else {
+            return day(name).date!
+        }
+        
     }
     
     public func day(_ name: String) -> ChurchDay {
