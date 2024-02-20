@@ -18,13 +18,15 @@ public class BookPageSingle: UIViewController, BookPageDelegate, UICollectionVie
     var bookPos : BookPosition
         
     var button_fontsize, button_close : CustomBarButton!
+    var button_extra : CustomBarButton?
     
-    public init?(_ pos: BookPosition, lang: String = Translate.language) {
+    public init?(_ pos: BookPosition, lang: String = Translate.language, button_extra : CustomBarButton? = nil) {
         guard let model = pos.model else { return nil }
         
         self.lang = lang
         self.model = model
         self.bookPos = pos
+        self.button_extra = button_extra
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -69,8 +71,14 @@ public class BookPageSingle: UIViewController, BookPageDelegate, UICollectionVie
         
         button_fontsize = CustomBarButton(image: UIImage(named: "fontsize", in: toolkit)!
             , target: self, btnHandler: #selector(showFontSizeDialog))
-                        
-        navigationItem.rightBarButtonItems = [button_fontsize]
+
+        var rightButtons = [button_fontsize!]
+
+        if let button_extra = button_extra {
+            rightButtons.append(button_extra)
+        }
+        
+        navigationItem.rightBarButtonItems = rightButtons
         navigationItem.leftBarButtonItems = [button_close]
     }
     
