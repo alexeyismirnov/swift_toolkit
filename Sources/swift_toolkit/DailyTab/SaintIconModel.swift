@@ -12,7 +12,7 @@ import SQLite
 enum IconCodes: Int {
     case pascha=100000, palmSunday=100001, ascension=100002, pentecost=100003,
     theotokosIveron=2250, theotokosLiveGiving=100100, theotokosDubenskaya=100101, theotokosChelnskaya=100103,
-    theotokosWall=100105, theotokosSevenArrows=100106, theotokosTabynsk=100108
+    theotokosWall=100105, theotokosSevenArrows=100106, theotokosTabynsk=100108, theotokosKursk=100114
 }
 
 public struct SaintIcon {
@@ -81,7 +81,7 @@ public struct SaintIconModel {
             pascha+24.days:     [.theotokosDubenskaya],
             pascha+42.days:     [.theotokosChelnskaya],
             pascha+56.days:     [.theotokosWall, .theotokosSevenArrows],
-            pascha+61.days:     [.theotokosTabynsk],
+            pascha+61.days:     [.theotokosTabynsk, .theotokosKursk],
         ]
         
         if let codes = moveableIcons[date] {

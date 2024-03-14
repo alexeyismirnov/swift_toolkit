@@ -216,6 +216,7 @@ public class ChurchCalendar {
         if Translate.language == "ru" {
             days.append(ChurchDay("synaxisMoscowSaints", .none, date: ChurchCalendar.nearestSundayBefore(Date(8, 9, year))))
             days.append(ChurchDay("synaxisNizhnyNovgorodSaints", .none, date: ChurchCalendar.nearestSundayAfter(Date(7, 9, year))))
+            days.append(ChurchDay("synaxisPskovCavesSaints", .none, date: pentecost+28.days))
         }
         
         let synaxisTheotokos = Date(8, 1, year)
@@ -242,6 +243,7 @@ public class ChurchCalendar {
         days.append(ChurchDay("tupichevskTheotokos", .none, date: pentecost+1.days))
         days.append(ChurchDay("koretsTheotokos", .none, date: pentecost+4.days))
         days.append(ChurchDay("softenerTheotokos", .none, date: pentecost+7.days))
+        days.append(ChurchDay("kurskTheotokos", .none, date: pentecost+12.days))
     }
     
     func generateBeforeAfter(feast: String,
