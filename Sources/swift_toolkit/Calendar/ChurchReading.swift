@@ -297,7 +297,7 @@ public class ChurchReading {
                 return (rr[date] ?? []) + feasts.filter({ $0.type == .great }).map { $0.reading! }
                 
             } else {
-                if cal.d("beginningOfGreatLent") ..< cal.d("sunday1GreatLent") ~= date {
+                if cal.d("beginningOfGreatLent") ..< cal.d("saturday1GreatLent") ~= date {
                     // only Lent reading during 1st week of Great Lent
                     result = rr[date] ?? []
                     
