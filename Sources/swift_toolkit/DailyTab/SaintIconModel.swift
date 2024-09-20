@@ -6,7 +6,8 @@
 //  Copyright © 2018 Alexey Smirnov. All rights reserved.
 //
 
-import Foundation
+import class Foundation.Bundle
+import struct Foundation.Date
 import SQLite
 
 enum IconCodes: Int {
@@ -36,11 +37,11 @@ public struct SaintIconModel {
     static let app_saint = Table("app_saint")
     static let link_saint = Table("link_saint")
 
-    static let id = Expression<Int64>("id")
-    static let day = Expression<Int64>("day")
-    static let month = Expression<Int64>("month")
-    static let has_icon = Expression<Int64>("has_icon")
-    static let name = Expression<String>("name")
+    static let id = SQLite.Expression<Int64>("id")
+    static let day = SQLite.Expression<Int64>("day")
+    static let month = SQLite.Expression<Int64>("month")
+    static let has_icon = SQLite.Expression<Int64>("has_icon")
+    static let name = SQLite.Expression<String>("name")
     
     static func addSaints(date: Date) -> [SaintIcon] {
         var saints = [SaintIcon]()
@@ -51,14 +52,14 @@ public struct SaintIconModel {
         saints.append(
             contentsOf: try! db.prepareRowIterator(app_saint
                 .filter(month == month_num && day == day_num && has_icon == 1))
-            .map { SaintIcon(id: Int($0[id]), name: $0[name], has_icon: true) }
+                .map { SaintIcon(id: Int(exactly: $0[id])!, name: $0[name], has_icon: true) }
         )
         
         saints.append(
             contentsOf: try! db.prepareRowIterator(app_saint
                 .join(link_saint,
                     on: link_saint[month] == month_num && link_saint[day] == day_num && app_saint[id] == link_saint[id]))
-            .map { SaintIcon(id: Int($0[app_saint[id]]), name: $0[link_saint[name]], has_icon: true) }
+            .map { SaintIcon(id: Int(exactly: $0[app_saint[id]])!, name: $0[link_saint[name]], has_icon: true) }
         )
         
         return saints

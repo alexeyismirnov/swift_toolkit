@@ -21,9 +21,9 @@ struct BibleVerse {
 fileprivate let t_scripture = Table("scripture")
 
 public class BibleUtils {
-    public static let f_chapter = Expression<Int>("chapter")
-    public static let f_verse = Expression<Int>("verse")
-    public static let f_text = Expression<String>("text")
+    public static let f_chapter = SQLite.Expression<Int>("chapter")
+    public static let f_verse = SQLite.Expression<Int>("verse")
+    public static let f_text = SQLite.Expression<String>("text")
     
     var content : [BibleVerse]
     var bookName : String
@@ -71,7 +71,7 @@ public class BibleUtils {
         NSAttributedString(string: content.map { $0.text }.joined(separator: " "))
     }
     
-    static public func fetch(_ name: String, whereExpr: Expression<Bool>, lang: String) -> BibleUtils {
+    static public func fetch(_ name: String, whereExpr: SQLite.Expression<Bool>, lang: String) -> BibleUtils {
         let path = Bundle.main.path(forResource: name.lowercased()+"_"+lang, ofType: "sqlite")!
         let db = try! Connection(path, readonly: true)
         

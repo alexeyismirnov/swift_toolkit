@@ -6,16 +6,20 @@
 //  Copyright © 2019 Alexey Smirnov. All rights reserved.
 //
 
-import Foundation
+
+import class Foundation.Bundle
+import struct Foundation.Date
+import struct Foundation.DateComponents
+
 import SQLite
 
 public struct SaintModel {
     static var databases = [String: Connection]()
     
     static let saints = Table("saints")
-    static let day = Expression<Int>("day")
-    static let typikon = Expression<Int>("typikon")
-    static let name = Expression<String>("name")
+    static let day = SQLite.Expression<Int>("day")
+    static let typikon = SQLite.Expression<Int>("typikon")
+    static let name = SQLite.Expression<String>("name")
 
     static public func saints(_ date: Date) -> [Saint] {
         var saints = [Saint]()
