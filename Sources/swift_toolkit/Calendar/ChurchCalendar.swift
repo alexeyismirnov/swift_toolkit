@@ -503,7 +503,7 @@ public extension ChurchCalendar {
         case startOfYear ..< d("palmSunday"):
             return tone(dayNum: Cal.paschaDay(year-1) >> date)
             
-        case pascha+7.days ... endOfYear:
+        case pascha+8.days ... endOfYear:
             return tone(dayNum: pascha >> date)
             
         default: return nil
