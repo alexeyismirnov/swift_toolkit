@@ -60,12 +60,14 @@ public class ChurchInfo: UITableViewController {
     }
 
     @IBAction func installApp(_ sender: Any) {
-        let urlStr = "https://itunes.apple.com/us/app/apple-store/id1566259967"
-        if #available(iOS 10.0, *) {
-            UIApplication.shared.open(URL(string: urlStr)!, options: [:], completionHandler: nil)
-            
+        let botURL = URL.init(string: "tg://resolve?domain=ponomar_en_bot")
+        let webURL = URL.init(string: "http://t.me/ponomar_en_bot")
+
+        if UIApplication.shared.canOpenURL(botURL!) {
+            UIApplication.shared.open(botURL!, options: [:], completionHandler: nil)
         } else {
-            UIApplication.shared.openURL(URL(string: urlStr)!)
+            UIApplication.shared.open(webURL!, options: [:], completionHandler: nil)
+
         }
     }
     
@@ -144,14 +146,18 @@ public class ChurchInfo: UITableViewController {
         label2.text = Translate.s("church_info")
         
         label3.textColor = Theme.textColor
-        label3.text = Translate.s("app_info")
+        label3.text = Translate.s("telegram_info")
         
         label4.textColor = Theme.textColor
         label4.text = Translate.s("donation_info")
         
         donationButtonOther.setTitle(Translate.s("Any amount..."), for: .normal)
-        appButton.setTitle(Translate.s("Install app"), for: .normal)
+        appButton.setTitle(Translate.s("open_telegram"), for: .normal)
         
+        let customButtonImage = appButton.currentImage
+        let newimage = customButtonImage?.resize(CGSize(width: 45, height: 45))
+        appButton.setImage(newimage, for: .normal)
+                
         if products.count > 0 {
             donationButton1.setTitle(String(format: Translate.s("Donate %@"), products[0].localizedPrice),
                                           for: .normal)
