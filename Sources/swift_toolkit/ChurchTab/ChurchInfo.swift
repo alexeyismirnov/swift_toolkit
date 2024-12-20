@@ -60,9 +60,18 @@ public class ChurchInfo: UITableViewController {
     }
 
     @IBAction func installApp(_ sender: Any) {
-        let botURL = URL.init(string: "tg://resolve?domain=ponomar_en_bot")
-        let webURL = URL.init(string: "http://t.me/ponomar_en_bot")
+        var botURL:URL!
+        var webURL:URL!
+        
+        if Translate.language == "ru" {
+            botURL = URL.init(string: "tg://resolve?domain=ponomar_ru_bot")
+            webURL = URL.init(string: "http://t.me/ponomar_ru_bot")
 
+        } else {
+            botURL = URL.init(string: "tg://resolve?domain=ponomar_en_bot")
+            webURL = URL.init(string: "http://t.me/ponomar_en_bot")
+        }
+ 
         if UIApplication.shared.canOpenURL(botURL!) {
             UIApplication.shared.open(botURL!, options: [:], completionHandler: nil)
         } else {
